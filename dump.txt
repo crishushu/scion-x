@@ -1,0 +1,3 @@
+add dependencies to package.json:
+- console-umd
+- scion

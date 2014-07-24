@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml"
+       version="1.0"
+       profile="ecmascript"><!--
+
+				Copyright (C) 2012-2013 DFKI GmbH
+				Deutsches Forschungszentrum fuer
+				Kuenstliche Intelligenz
+				German Research Center for Artificial
+				Intelligence
+				http://www.dfki.de
+
+				Permission is hereby granted, free of
+				charge, to any person obtaining a
+				copy of this software and
+				associated documentation files (the
+				"Software"), to deal in the
+				Software without restriction, including
+				without limitation the rights
+				to use, copy, modify, merge, publish,
+				distribute, sublicense, and/or
+				sell copies of the Software, and to
+				permit persons to whom the
+				Software is furnished to do so, subject
+				to
+				the following conditions:
+
+				The above copyright notice and this permission notice shall be
+				included
+				in all copies or substantial portions of the Software.
+
+				THE
+				SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+				OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+				MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+				NONINFRINGEMENT.
+				IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+				BE LIABLE FOR ANY
+				CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+				ACTION OF CONTRACT,
+				TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+				CONNECTION WITH THE
+				SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+				SOFTWARE.
+
+			-->
+   <datamodel>
+      <data id="dialogManager"/>
+      <data id="ctrl_name"/>
+      <data id="view_name"/>
+      <data id="action_name"/>
+   </datamodel>
+   <state id="n0" name="application">
+      <initial>
+         <transition target="n0::n3"/>
+      </initial>
+      <state id="n0::n3" name="Start">
+         <transition event="init">
+            <assign location="dialogManager" expr="_event.data"/>
+         </transition>
+         <transition event="start" target="n0::n4"/>
+      </state>
+      <state id="n0::n0" name="userVerified">
+         <state id="n0::n0::n0" name="postpaid">
+            <state id="n0::n0::n0::n0" name="PaymentSuccess" type="presentation">
+               <datamodel>
+                  <data id="data_n0_n0_n0_n0" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'Postpaid'"/>
+                  <assign location="view_name" expr="'paymentSuccess'"/>
+                  <script>
+
+					data_n0_n0_n0_n0 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n0_n0;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n0_n0);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n0_n0 );
+
+				</script>
+               </onentry>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+            </state>
+            <state id="n0::n0::n0::n1" name="PaymentFailure" type="presentation">
+               <datamodel>
+                  <data id="data_n0_n0_n0_n1" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'Postpaid'"/>
+                  <assign location="view_name" expr="'paymentFailure'"/>
+                  <script>
+
+					data_n0_n0_n0_n1 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n0_n1;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n0_n1);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n0_n1 );
+
+				</script>
+               </onentry>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+            </state>
+            <state id="n0::n0::n0::n2" name="phones/payment" type="callout">
+               <onentry>
+                  <assign location="ctrl_name" expr="'Postpaid'"/>
+                  <assign location="action_name" expr="'phones/payment'"/>
+                  <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+               </onentry>
+               <transition event="success" target="n0::n0::n0::n0"/>
+               <transition event="failed" target="n0::n0::n0::n1"/>
+            </state>
+            <state id="n0::n0::n0::n3" name="Payment" type="input">
+               <datamodel>
+                  <data id="data_n0_n0_n0_n3" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'Postpaid'"/>
+                  <assign location="view_name" expr="'payment'"/>
+                  <script>
+
+					data_n0_n0_n0_n3 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n0_n3;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n0_n3);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n0_n3 );
+
+				</script>
+               </onentry>
+               <!--
+							PROPAGATE: goToConfirmation-->
+               <transition event="goToConfirmation" target="n0::n0::n0::n4">
+                  <assign location="_event.data" expr="data_n0_n0_n0_n3"/>
+               </transition>
+            </state>
+            <state id="n0::n0::n0::n4" name="Confirmation" type="menu">
+               <datamodel>
+                  <data id="data_n0_n0_n0_n4" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'Postpaid'"/>
+                  <assign location="view_name" expr="'confirmation'"/>
+                  <script>
+
+					data_n0_n0_n0_n4 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n0_n4;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n0_n4);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n0_n4 );
+
+				</script>
+               </onentry>
+               <!--
+							PROPAGATE: goToPayment-->
+               <transition event="goToPayment" target="n0::n0::n0::n3">
+                  <assign location="_event.data" expr="data_n0_n0_n0_n4"/>
+               </transition>
+               <!--
+							PROPAGATE: submitConfirmation-->
+               <transition event="submitConfirmation" target="n0::n0::n0::n2">
+                  <assign location="_event.data" expr="data_n0_n0_n0_n4"/>
+               </transition>
+            </state>
+            <state id="n0::n0::n0::n5" name="Bills" type="menu">
+               <datamodel>
+                  <data id="data_n0_n0_n0_n5" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'Postpaid'"/>
+                  <assign location="view_name" expr="'bills'"/>
+                  <script>
+
+					data_n0_n0_n0_n5 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n0_n5;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n0_n5);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n0_n5 );
+
+				</script>
+               </onentry>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+               <transition event="goToPayment" target="n0::n0::n0::n3"/>
+               <transition event="goToNewPhoneNumber" target="n0::n0::n7"/>
+            </state>
+            <transition event="logout" target="n0::n0::n10"/>
+         </state>
+         <state id="n0::n0::n1" name="prepaid">
+            <state id="n0::n0::n1::n0" name="TopupSuccess" type="presentation">
+               <datamodel>
+                  <data id="data_n0_n0_n1_n0" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'Prepaid'"/>
+                  <assign location="view_name" expr="'topupSuccess'"/>
+                  <script>
+
+					data_n0_n0_n1_n0 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n1_n0;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n1_n0);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n1_n0 );
+
+				</script>
+               </onentry>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+            </state>
+            <state id="n0::n0::n1::n1" name="TopupFailure" type="presentation">
+               <datamodel>
+                  <data id="data_n0_n0_n1_n1" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'Prepaid'"/>
+                  <assign location="view_name" expr="'topupFailure'"/>
+                  <script>
+
+					data_n0_n0_n1_n1 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n1_n1;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n1_n1);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n1_n1 );
+
+				</script>
+               </onentry>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+            </state>
+            <state id="n0::n0::n1::n2" name="phones/topup" type="callout">
+               <onentry>
+                  <assign location="ctrl_name" expr="'Prepaid'"/>
+                  <assign location="action_name" expr="'phones/topup'"/>
+                  <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+               </onentry>
+               <transition event="success" target="n0::n0::n1::n0"/>
+               <transition event="failed" target="n0::n0::n1::n1"/>
+            </state>
+            <state id="n0::n0::n1::n3" name="Balance" type="input">
+               <datamodel>
+                  <data id="data_n0_n0_n1_n3" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'Prepaid'"/>
+                  <assign location="view_name" expr="'balance'"/>
+                  <script>
+
+					data_n0_n0_n1_n3 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n1_n3;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n1_n3);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n1_n3 );
+
+				</script>
+               </onentry>
+               <!--
+							CYCLIC: submitTopup-->
+               <transition event="submitTopup">
+                  <script>					
+					var _data = "$generated-event-1";
+					console.debug("[dm_perform]", ctrl_name, view_name, _data);
+					dialogManager.perform( ctrl_name, view_name, _data );
+			</script>
+               </transition>
+               <transition event="$generated-event-1" target="n0::n0::n1::n2"/>
+               <transition event="goToNewPhoneNumber" target="n0::n0"/>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+               <transition event="goToOtherTopup" target="n0::n0::n2::n3"/>
+            </state>
+            <transition event="logout" target="n0::n0::n10"/>
+         </state>
+         <state id="n0::n0::n2" name="prepaidOther">
+            <state id="n0::n0::n2::n0" name="phones/topup" type="callout">
+               <onentry>
+                  <assign location="ctrl_name" expr="'PrepaidOther'"/>
+                  <assign location="action_name" expr="'phones/topup'"/>
+                  <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+               </onentry>
+               <transition event="success" target="n0::n0::n2::n2"/>
+               <transition event="failed" target="n0::n0::n2::n1"/>
+            </state>
+            <state id="n0::n0::n2::n1" name="OtherTopupFailure" type="menu">
+               <datamodel>
+                  <data id="data_n0_n0_n2_n1" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'PrepaidOther'"/>
+                  <assign location="view_name" expr="'otherTopupFailure'"/>
+                  <script>
+
+					data_n0_n0_n2_n1 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n2_n1;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n2_n1);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n2_n1 );
+
+				</script>
+               </onentry>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+               <transition event="goToOtherTopup" target="n0::n0::n2::n3"/>
+            </state>
+            <state id="n0::n0::n2::n2" name="OtherTopupSuccess" type="menu">
+               <datamodel>
+                  <data id="data_n0_n0_n2_n2" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'PrepaidOther'"/>
+                  <assign location="view_name" expr="'otherTopupSuccess'"/>
+                  <script>
+
+					data_n0_n0_n2_n2 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n2_n2;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n2_n2);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n2_n2 );
+
+				</script>
+               </onentry>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+               <transition event="goToOtherTopup" target="n0::n0::n2::n3"/>
+            </state>
+            <state id="n0::n0::n2::n3" name="OtherTopup" type="input">
+               <datamodel>
+                  <data id="data_n0_n0_n2_n3" expr="'{}'"/>
+               </datamodel>
+               <onentry>
+                  <assign location="ctrl_name" expr="'PrepaidOther'"/>
+                  <assign location="view_name" expr="'otherTopup'"/>
+                  <script>
+
+					data_n0_n0_n2_n3 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n2_n3;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n2_n3);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n2_n3 );
+
+				</script>
+               </onentry>
+               <transition event="submitTopup" target="n0::n0::n2::n0"/>
+               <transition event="goToPhoneList" target="n0::n0::n9"/>
+            </state>
+            <transition event="logout" target="n0::n0::n10"/>
+         </state>
+         <state id="n0::n0::n3" name="links" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'UserVerified'"/>
+               <assign location="action_name" expr="'links'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="success" target="n0::n0::n9"/>
+            <transition event="failed" target="n0::n0::n4"/>
+         </state>
+         <state id="n0::n0::n4" name="LinkingCode" type="input">
+            <datamodel>
+               <data id="data_n0_n0_n4" expr="'{}'"/>
+            </datamodel>
+            <onentry>
+               <assign location="ctrl_name" expr="'UserVerified'"/>
+               <assign location="view_name" expr="'linkingCode'"/>
+               <script>
+
+					data_n0_n0_n4 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n4;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n4);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n4 );
+
+				</script>
+            </onentry>
+            <!--
+							CYCLIC: submitLink-->
+            <transition event="submitLink">
+               <script>					
+					var _data = "$generated-event-1";
+					console.debug("[dm_perform]", ctrl_name, view_name, _data);
+					dialogManager.perform( ctrl_name, view_name, _data );
+			</script>
+            </transition>
+            <transition event="$generated-event-1" target="n0::n0::n3"/>
+            <transition event="cancel" target="n0::n0::n6"/>
+            <!--
+							CYCLIC: logout-->
+            <transition event="logout">
+               <script>					
+					var _data = "$generated-event-3";
+					console.debug("[dm_perform]", ctrl_name, view_name, _data);
+					dialogManager.perform( ctrl_name, view_name, _data );
+			</script>
+            </transition>
+            <transition event="$generated-event-3" target="n0::n0::n10"/>
+         </state>
+         <state id="n0::n0::n5" name="phones" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'UserVerified'"/>
+               <assign location="action_name" expr="'phones'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="success" target="n0::n0::n4"/>
+            <transition event="failed" target="n0::n0::n7"/>
+         </state>
+         <state id="n0::n0::n6" name="links" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'UserVerified'"/>
+               <assign location="action_name" expr="'links'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="success" target="n0::n0::n9"/>
+            <transition event="incompleteAccount" target="n0::n0::n7"/>
+         </state>
+         <state id="n0::n0::n7" name="NewPhoneNumber" type="input">
+            <datamodel>
+               <data id="data_n0_n0_n7" expr="'{}'"/>
+            </datamodel>
+            <onentry>
+               <assign location="ctrl_name" expr="'UserVerified'"/>
+               <assign location="view_name" expr="'newPhoneNumber'"/>
+               <script>
+
+					data_n0_n0_n7 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n0_n7;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n0_n7);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n0_n7 );
+
+				</script>
+            </onentry>
+            <!--
+							CYCLIC: submitPhoneNumber-->
+            <transition event="submitPhoneNumber">
+               <script>					
+					var _data = "$generated-event-1";
+					console.debug("[dm_perform]", ctrl_name, view_name, _data);
+					dialogManager.perform( ctrl_name, view_name, _data );
+			</script>
+            </transition>
+            <transition event="$generated-event-1" target="n0::n0::n5"/>
+            <transition event="cancel" target="n0::n0::n8"/>
+            <!--
+							CYCLIC: logout-->
+            <transition event="logout">
+               <script>					
+					var _data = "$generated-event-3";
+					console.debug("[dm_perform]", ctrl_name, view_name, _data);
+					dialogManager.perform( ctrl_name, view_name, _data );
+			</script>
+            </transition>
+            <transition event="$generated-event-3" target="n0::n0::n10"/>
+         </state>
+         <state id="n0::n0::n8" name="phones" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'UserVerified'"/>
+               <assign location="action_name" expr="'phones'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="success" target="n0::n0::n9"/>
+            <transition event="incompleteAccount" target="n0::n0::n7"/>
+         </state>
+         <state id="n0::n0::n9" name="phones" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'UserVerified'"/>
+               <assign location="action_name" expr="'phones'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="postpaid" target="n0::n0::n0::n5"/>
+            <transition event="prepaid" target="n0::n0::n1::n3"/>
+         </state>
+         <state id="n0::n0::n10" name="sessions" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'UserVerified'"/>
+               <assign location="action_name" expr="'sessions'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="success" target="n0::n2::n0"/>
+         </state>
+         <transition event="unauthorized" target="n0::n2::n0"/>
+      </state>
+      <state id="n0::n1" name="prepaidQuick">
+         <state id="n0::n1::n0" name="QuickTopupSuccess" type="presentation">
+            <datamodel>
+               <data id="data_n0_n1_n0" expr="'{}'"/>
+            </datamodel>
+            <onentry>
+               <assign location="ctrl_name" expr="'PrepaidQuick'"/>
+               <assign location="view_name" expr="'quickTopupSuccess'"/>
+               <script>
+
+					data_n0_n1_n0 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n1_n0;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n1_n0);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n1_n0 );
+
+				</script>
+            </onentry>
+            <transition event="goToQuickTopup" target="n0::n1::n3"/>
+         </state>
+         <state id="n0::n1::n1" name="QuickTopupFailure" type="presentation">
+            <datamodel>
+               <data id="data_n0_n1_n1" expr="'{}'"/>
+            </datamodel>
+            <onentry>
+               <assign location="ctrl_name" expr="'PrepaidQuick'"/>
+               <assign location="view_name" expr="'quickTopupFailure'"/>
+               <script>
+
+					data_n0_n1_n1 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n1_n1;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n1_n1);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n1_n1 );
+
+				</script>
+            </onentry>
+            <transition event="goToQuickTopup" target="n0::n1::n3"/>
+         </state>
+         <state id="n0::n1::n2" name="phones/topup" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'PrepaidQuick'"/>
+               <assign location="action_name" expr="'phones/topup'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="success" target="n0::n1::n0"/>
+            <transition event="failed" target="n0::n1::n1"/>
+         </state>
+         <state id="n0::n1::n3" name="QuickTopup" type="input">
+            <datamodel>
+               <data id="data_n0_n1_n3" expr="'{}'"/>
+            </datamodel>
+            <onentry>
+               <assign location="ctrl_name" expr="'PrepaidQuick'"/>
+               <assign location="view_name" expr="'quickTopup'"/>
+               <script>
+
+					data_n0_n1_n3 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n1_n3;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n1_n3);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n1_n3 );
+
+				</script>
+            </onentry>
+            <transition event="submitQuickTopup" target="n0::n1::n2"/>
+            <transition event="goToHome" target="n0::n2::n0"/>
+         </state>
+      </state>
+      <state id="n0::n2" name="idAndVerification">
+         <state id="n0::n2::n0" name="Home" type="menu">
+            <datamodel>
+               <data id="data_n0_n2_n0" expr="'{}'"/>
+            </datamodel>
+            <onentry>
+               <assign location="ctrl_name" expr="'IdAndVerification'"/>
+               <assign location="view_name" expr="'home'"/>
+               <script>
+
+					data_n0_n2_n0 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n2_n0;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n2_n0);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n2_n0 );
+
+				</script>
+            </onentry>
+            <transition event="goToLogin" target="n0::n2::n2"/>
+            <transition event="goToSignUp" target="n0::n2::n1"/>
+            <transition event="goToQuickTopup" target="n0::n1::n3"/>
+         </state>
+         <state id="n0::n2::n1" name="SignUp" type="input">
+            <datamodel>
+               <data id="data_n0_n2_n1" expr="'{}'"/>
+            </datamodel>
+            <onentry>
+               <assign location="ctrl_name" expr="'IdAndVerification'"/>
+               <assign location="view_name" expr="'signUp'"/>
+               <script>
+
+					data_n0_n2_n1 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n2_n1;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n2_n1);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n2_n1 );
+
+				</script>
+            </onentry>
+            <!--
+							CYCLIC: submitSignup-->
+            <transition event="submitSignup">
+               <script>					
+					var _data = "$generated-event-1";
+					console.debug("[dm_perform]", ctrl_name, view_name, _data);
+					dialogManager.perform( ctrl_name, view_name, _data );
+			</script>
+            </transition>
+            <transition event="$generated-event-1" target="n0::n2::n4"/>
+         </state>
+         <state id="n0::n2::n2" name="Login" type="input">
+            <datamodel>
+               <data id="data_n0_n2_n2" expr="'{}'"/>
+            </datamodel>
+            <onentry>
+               <assign location="ctrl_name" expr="'IdAndVerification'"/>
+               <assign location="view_name" expr="'login'"/>
+               <script>
+
+					data_n0_n2_n2 = _event.data &amp;&amp;  !$.isEmptyObject( JSON.parse(_event.data)) ? _event.data : data_n0_n2_n2;
+					console.debug("[dm_render]", ctrl_name, view_name, data_n0_n2_n2);
+
+					dialogManager.render( ctrl_name, view_name, data_n0_n2_n2 );
+
+				</script>
+            </onentry>
+            <!--
+							CYCLIC: submitLogin-->
+            <transition event="submitLogin">
+               <script>					
+					var _data = "$generated-event-1";
+					console.debug("[dm_perform]", ctrl_name, view_name, _data);
+					dialogManager.perform( ctrl_name, view_name, _data );
+			</script>
+            </transition>
+            <transition event="$generated-event-1" target="n0::n2::n3"/>
+         </state>
+         <state id="n0::n2::n3" name="sessions" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'IdAndVerification'"/>
+               <assign location="action_name" expr="'sessions'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="success" target="n0::n0::n9"/>
+            <transition event="incompleteAccount" target="n0::n0::n4"/>
+            <transition event="failed" target="n0::n2::n2"/>
+         </state>
+         <state id="n0::n2::n4" name="users" type="callout">
+            <onentry>
+               <assign location="ctrl_name" expr="'IdAndVerification'"/>
+               <assign location="action_name" expr="'users'"/>
+               <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+            </onentry>
+            <transition event="success" target="n0::n0::n4"/>
+            <transition event="failed" target="n0::n2::n1"/>
+         </state>
+      </state>
+      <state id="n0::n4" name="sessions" type="callout">
+         <onentry>
+            <assign location="ctrl_name" expr="'Application'"/>
+            <assign location="action_name" expr="'sessions'"/>
+            <script>
+
+					console.debug("[dm_perform]", ctrl_name, action_name, _event.data);
+
+					dialogManager.perform( ctrl_name, action_name, _event.data );
+
+				</script>
+         </onentry>
+         <transition event="success" target="n0::n0::n9"/>
+         <transition event="notFound" target="n0::n2::n0"/>
+      </state>
+   </state>
+</scxml>
