@@ -51,7 +51,7 @@ Start the SCION interpreter using known UMD pattern:
 ```javascript
 (function(global, factory) {
     if (typeof module === 'object') {
-        module.exports = factory(require('umd-logger'), require('./lib/scionx'));
+        module.exports = factory(require('umd-logger'), require('scionx'));
     } else if (typeof define === 'function' && define.amd) {
         define(['umd-logger', 'scionx'], factory);
     } else {
