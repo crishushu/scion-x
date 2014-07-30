@@ -6,15 +6,13 @@ Simple extension of SCION by Jacob Beard
 This SCION wrapper provides some additional functionalities with respect to the original implementation.
 
 Those includes:
-<ul>
-    <li> UMD enabled </li>
-    <li> Loader uses jQuery Deferreds </li>
-    <li> Convenient getter functions such as `getActiveEvents()` which returns all accepted events at a current configuration including those subsumed by valid parent states </li>
-    <li> The SCION interpreter takes account for the attribute "name" of the state that can be obtained by the function `getStateName()`</li>
-    <li> The SCION interpreter takes account for the attribute "type" of the state that can be obtained by the function `getStateType()`</li>
-    <li> Additional tweaks during runtime behavior such as a toggle switching on/off script execution inside SCXML: `ignoreScript()` and `evaluateScript()`</li>
-</ul>
 
+- UMD enabled 
+- Loader uses jQuery Deferreds 
+- Convenient getter functions such as `getActiveEvents()` which returns all accepted events at a current configuration including those subsumed by valid parent states
+- The SCION interpreter takes account for the attribute "name" of the state that can be obtained by the function `getStateName()`
+- The SCION interpreter takes account for the attribute "type" of the state that can be obtained by the function `getStateType()`
+- Additional tweaks during runtime behavior such as a toggle switching on/off script execution inside SCXML: `ignoreScript()` and `evaluateScript()`
 
 ## Getting Started
 Install the module with: `npm install scion-x`
