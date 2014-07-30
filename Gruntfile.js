@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function(grunt) {
     grunt.initConfig({
-        npmEnv: '/Users/crishushu/GoogleDrive/src/node_modules/', // path to node_modules folder
+        npmEnv: '/Users/username/node_modules/', // path to node_modules folder
         debugPort: '5951', // debugger port
         connectPort: 35721, // connector port
         base: '.', // path to index
