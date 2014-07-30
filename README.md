@@ -17,7 +17,7 @@ Those includes:
 ## Getting Started
 Install the module with: `npm install scion-x`
 
-Define the configuration:
+##### Define the configuration:
 ```javascript
 var config = {
         doc: 'http://localhost:9995/scxml.xml', // url locates the SCXML document
@@ -29,7 +29,7 @@ var config = {
                 console.debug('entry', stateName);
                 // some additional code
             },
-            onExit: function(stateName) {
+            onExit: function(stateName) {∂
                 console.debug('exit', stateName);
                 // some additional code
             },
@@ -47,7 +47,7 @@ var config = {
     };
 ```
 
-Start the SCION interpreter using known UMD pattern: 
+##### Start the SCION interpreter using known UMD pattern: 
 ```javascript
 (function(global, factory) {
     if (typeof module === 'object') {
@@ -66,12 +66,72 @@ Start the SCION interpreter using known UMD pattern:
 
 ```
 
+##### To test the implementation using node
+1. Set the path to your node_modules containing the required grunt plugins (see package.json) inside Gruntfile.js
+2. Start the file server that serves the SCXML document. Go to the folder scxml and type in your terminal: `node file-server`
+3. `grunt`
 
+##### To test the implementation using globals
+1. Set the path to your node_modules containing the required grunt plugins (see package.json) inside Gruntfile.js
+2. Adapt comment as follows:
+3. `grunt serve:browser`
 
+##### To test the implementation using AMD
+1. Set the path to your node_modules containing the required grunt plugins (see package.json) inside Gruntfile.js
+2. Adapt index.html as follows: 
+3. `grunt serve:browser`
+
+## License
+Copyright (c) 2014 Christian H. Schulz  
+Licensed under the MIT license.
 
 <!--
 ## Examples
-_(Coming soon)_
+```
+(function(global, factory) {
+    if (typeof module === 'object') {
+        module.exports = factory(require('umd-logger'), require('./lib/scionx'));
+    } else if (typeof define === 'function' && define.amd) {
+        define(['umd-logger', 'scionx'], factory);
+    } else {
+        factory(umd_logger, scionx);
+    }
+})(this, function(console, scion) {
+    var url = (typeof module === 'object') 
+        ? 'http://localhost:9989/telcoPortal-scxmlFromMultirep.xml' 
+        : 'http://localhost:5959/scxml/telcoPortal-scxmlFromMultirep.xml'; 
+    scion({
+        doc: url,
+        evalScript: false,
+        scionListener: {
+            statesActive: [],
+            onEntry: function(stateName) {
+                this.statesActive.push(stateName);
+                console.debug('SCXML State Entry: "' + stateName + '"');
+            },
+            onExit: function(stateName) {
+                this.statesActive.pop();
+                console.debug('SCXML State Exit: "' + stateName + '"');
+            },
+            onTransition: function(sourceState, targetStatesArray) {
+                console.debug('SCXML State Transition: "' + sourceState + '"->"' + targetStatesArray + '"');
+                if (targetStatesArray && targetStatesArray.length > 1) {
+                    console.warn('SCXML State Transition: multiple target states!');
+                }
+            }
+        },
+        onraise: function(e) {
+            console.debug('current state:', this.getStates());
+            console.debug('active states:', this.getActiveStates());
+            console.debug('active events:', this.getActiveEvents());
+            console.debug('active transitions:', this.getStates() + ":" + JSON.stringify(this.getActiveTransitions()));
+        }
+    }).init(function(_engine) {
+        console.debug('engine:', _engine);
+        _engine.start();
+    });
+});
+```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
@@ -79,6 +139,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 _(Nothing yet)_
 -->
-## License
-Copyright (c) 2014 Christian H. Schulz  
-Licensed under the MIT license.
+

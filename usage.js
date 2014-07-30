@@ -1,15 +1,13 @@
 (function(global, factory) {
     if (typeof module === 'object') {
-        module.exports = factory(require('umd-logger'), require('./lib/scionx'));
+        module.exports = factory(require('umd-logger'), require('./lib/scionLoader'));
     } else if (typeof define === 'function' && define.amd) {
         define(['umd-logger', 'scionx'], factory);
     } else {
         factory(umd_logger, scionx);
     }
 })(this, function(console, scion) {
-    var url = (typeof module === 'object') 
-        ? 'http://localhost:9989/telcoPortal-scxmlFromMultirep.xml' 
-        : 'http://localhost:5959/scxml/telcoPortal-scxmlFromMultirep.xml'; 
+    var url = (typeof module === 'object') ? 'http://localhost:9989/example-scxml.xml': 'http://localhost:5951/scxml/docs/example-scxml.xml';
     scion({
         doc: url,
         evalScript: false,

@@ -9,7 +9,7 @@
 <script>window.jQuery || document.write("<script src='jquery.js'>\x3C/script>")</script>
 
 <!-- TEST GLOBALS -->
-<!-- <script type="text/javascript" src="lib/scionx.js"></script>
+<!-- <script type="text/javascript" src="lib/scionWrapper.js"></script>
 <script type="text/javascript" src="node_modules/umd-logger/lib/umd-logger.js"></script>
  <script type="text/javascript" src="usage.js"></script> -->
 
@@ -18,8 +18,8 @@
   var require = {
     paths: {
         'umd-logger': './node_modules/umd-logger/lib/umd-logger',
-        'scionx': './lib/scionx',
-        'util': './lib/util',
+        'scionx': './lib/scionLoader',
+        'scionWrapper': './lib/scionWrapper',
         'scion': './node_modules/scion/dist/scion'
     },
     deps: ['usage']
