@@ -73,14 +73,34 @@ var config = {
 
 ##### To test the implementation using globals
 1. Set the path to your node_modules containing the required grunt plugins (see package.json) inside Gruntfile.js
-2. Adapt comment as follows:
+2. Adapt comment as below
 3. `grunt serve:browser`
+
+```html
+<script type="text/javascript" src="lib/scionWrapper.js"></script>
+<script type="text/javascript" src="node_modules/umd-logger/lib/umd-logger.js"></script>
+<script type="text/javascript" src="usage.js"></script>
+```
 
 ##### To test the implementation using AMD
 1. Set the path to your node_modules containing the required grunt plugins (see package.json) inside Gruntfile.js
-2. Adapt index.html as follows: 
+2. Adapt index.html as below 
 3. `grunt serve:browser`
 
+```HTML
+<script type="text/javascript">
+  var require = {
+    paths: {
+        'umd-logger': './node_modules/umd-logger/lib/umd-logger',
+        'scionx': './lib/scionLoader',
+        'scionWrapper': './lib/scionWrapper',
+        'scion': './node_modules/scion/dist/scion'
+    },
+    deps: ['usage']
+  }
+</script>
+<script type="text/javascript" src="require.js"></script>
+```
 ## License
 Copyright (c) 2014 Christian H. Schulz  
 Licensed under the MIT license.
