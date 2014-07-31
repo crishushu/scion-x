@@ -68,13 +68,15 @@ var config = {
 
 ##### To test the implementation using node
 1. Set the path to your node_modules containing the required grunt plugins (see package.json) inside Gruntfile.js
-2. Start the file server that serves the SCXML document. Go to the folder scxml and type in your terminal: `node file-server`
-3. `grunt`
+2. Type in your command line: `grunt`
+
+You can also just execute with `node usage`. Though, before you need to start the file server that serves the SCXML document. To this end you go to the folder scxml and type in your terminal: `node file-server`
+
 
 ##### To test the implementation using globals
 1. Set the path to your node_modules containing the required grunt plugins (see package.json) inside Gruntfile.js
 2. Adapt comment as below
-3. `grunt serve:browser`
+3. Type in your command line: `grunt serve:browser`
 
 ```html
 <script type="text/javascript" src="lib/scionWrapper.js"></script>
@@ -85,7 +87,7 @@ var config = {
 ##### To test the implementation using AMD
 1. Set the path to your node_modules containing the required grunt plugins (see package.json) inside Gruntfile.js
 2. Adapt index.html as below 
-3. `grunt serve:browser`
+3. Type in your command line: `grunt serve:browser`
 
 ```HTML
 <script type="text/javascript">
