@@ -1,7 +1,11 @@
 node_modules
 Icon*
-Icon?
 gitignore
+Icon?*
+Icon?
+.rebooted
+.jshintrc
+.bin/
 
 # global
 *.bak
