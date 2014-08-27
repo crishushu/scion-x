@@ -42,6 +42,6 @@
   "dependencies": {
     "jquery-deferred": "^0.3.0",
     "scion":"git://github.com/crishushu/SCION",
-    "scion":"git://github.com/crishushu/umd-logger"
+    "umd-logger":"git://github.com/crishushu/umd-logger"
   }
 }
